@@ -4,7 +4,8 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class MyHashSet {
-    ArrayList<List> hashTable = new ArrayList<>(16);
+    private int initialCapacity = 16;
+    ArrayList<List> hashTable = new ArrayList<>(initialCapacity);
     private float loadFactor = 0.75F;
 
 
@@ -22,7 +23,9 @@ public class MyHashSet {
     }
 
     private void growHashTable(){
-
+        //if(hashTable.size()/initialCapacity > loadFactor)
+            ArrayList<List> hashTable = new ArrayList<>(initialCapacity*2);
+        hashTable.ensureCapacity(initialCapacity*2);
     }
 
     public Iterator<E> iterator(){
@@ -30,15 +33,15 @@ public class MyHashSet {
     }
 
     public int size(){
-        return 0;
+        return hashTable.size();
     }
 
     public boolean isEmpty(){
-        return false;
+        return hashTable.isEmpty();
     }
 
     public boolean contains(Object o){
-        return false;
+        return hashTable.contains(o);
     }
 
     public boolean add(Object o){
