@@ -13,7 +13,19 @@ public class MyHashSet {
         ArrayList<List> hashTable = new ArrayList<>(initialCapacity);
     }
 
+    public MyHashSet(Collection<? extends E> c){
+
+    }
+
+    public MyHashSet(int initialCapacity){
+        ArrayList<List> hashTable = new ArrayList<>(initialCapacity);
+    }
+
     private void growHashTable(){
+
+    }
+
+    public Iterator<E> iterator(){
 
     }
 
