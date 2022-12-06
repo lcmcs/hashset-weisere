@@ -16,5 +16,7 @@ class MainTest {
     @Test
     void contains(){
         assertTrue(set.contains("b"));
+        set.remove("b");
+        assertFalse(set.contains("b"));
     }
 }
