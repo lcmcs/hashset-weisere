@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class MyHashSet implements Set<String> {
     private int initialCapacity = 16;
-    ArrayList<ArrayList> hashTable;
+    private ArrayList<ArrayList<String>> hashTable;
     private float loadFactor = 0.75F;
     private int size = 0;
 
@@ -22,21 +22,21 @@ public class MyHashSet implements Set<String> {
         hashTable = new ArrayList<>(initialCapacity);
     }
 
-    public MyHashSet(Collection<? extends E> c){
-
-    }
+//    public MyHashSet(Collection<? extends E> c){
+//
+//    }
 
     //too access which list it is in u use o.hashCode() % hashTAble.length
 
     public MyHashSet(int initialCapacity){
         this.initialCapacity = initialCapacity;
-        hashTable = new ArrayList<>(initialCapacity);
+        hashTable = new ArrayList<ArrayList<String>>(initialCapacity);
     }
 
 
-    public Iterator<E> iterator(){
-
-    }
+//    public Iterator<E> iterator(){
+//
+//    }
 
 
     @Override
@@ -86,7 +86,7 @@ public class MyHashSet implements Set<String> {
 
     private void growHashTable(){
         initialCapacity *= 2;
-        ArrayList<ArrayList> newHashTable = new ArrayList<>(initialCapacity);
+        ArrayList<ArrayList<String>> newHashTable = new ArrayList<ArrayList<String>>(initialCapacity);
         for(int i = 0; i < hashTable.size(); i++)
             for(int j = 0; j < hashTable.get(i).size(); j++)
                 newHashTable.get(hashTable.get(i).get(j).hashCode() % initialCapacity).add(hashTable.get(i).get(j));
