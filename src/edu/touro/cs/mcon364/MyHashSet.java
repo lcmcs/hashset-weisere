@@ -1,9 +1,6 @@
 package edu.touro.cs.mcon364;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class MyHashSet implements Set<String> {
     private int initialCapacity = 16;
@@ -37,10 +34,29 @@ public class MyHashSet implements Set<String> {
     }
 
 
-//    public Iterator<E> iterator(){
-//
-//    }
+@Override
+public Iterator<String> iterator() {
+    return new MyHashSetIterator();
+}
 
+
+    private class MyHashSetIterator implements Iterator<String> { // inner class
+        private int preIndex = 0;
+
+        @Override
+        public boolean hasNext() {
+            return this.preIndex < MyHashSet.this.size();
+        }
+
+        @Override
+        public String next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return MyHashSet.this.hashTable[this.preIndex++];
+        }
+
+    }
 
     @Override
     public int size() {
@@ -61,10 +77,6 @@ public class MyHashSet implements Set<String> {
         return hashTable[index].contains(o);
     }
 
-    @Override
-    public Iterator<String> iterator() {
-        return null;
-    }
 
     @Override
     public Object[] toArray() {
