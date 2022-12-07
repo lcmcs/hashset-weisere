@@ -8,7 +8,7 @@ import java.util.Set;
 public class MyHashSet implements Set<String> {
     private int initialCapacity = 16;
     private ArrayList[] hashTable;
-    private float loadFactor = 0.75F;
+    private float loadFactor = 0.75f;
     private int size = 0;
 
     public MyHashSet(){
@@ -68,7 +68,15 @@ public class MyHashSet implements Set<String> {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        int index = 0;
+        Object[] newHashSet = new String[hashTable.length];
+        for(int i = 0; i < size(); i++)
+            if(hashTable[i] != null)
+                for(int j = 0; j < hashTable[i].size(); j++) {
+                    newHashSet[index] = hashTable[i].get(j);
+                    index++;
+                }
+        return newHashSet;
     }
 
     @Override
@@ -81,7 +89,7 @@ public class MyHashSet implements Set<String> {
         if (contains(s)){
             return false;
         }
-        if(size()/hashTable.length >= loadFactor){
+        if((double)size()/(double)hashTable.length >= loadFactor){
             growHashTable();
         }
         int index = s.hashCode() % hashTable.length;
@@ -100,11 +108,24 @@ public class MyHashSet implements Set<String> {
     private void growHashTable(){
         int doubleSize = hashTable.length * 2;
         ArrayList[] newHashTable = new ArrayList[doubleSize];
-        for(int i = 0; i < size(); i++)
-            for(int j = 0; j < hashTable[i].size(); j++)
-                newHashTable[hashTable[i].get(j).hashCode() % newHashTable.length].add(hashTable[i].get(j));
-               // newHashTable.get(hashTable.get(i).get(j).hashCode() % initialCapacity).add(hashTable.get(i).get(j));
-
+        Object o;
+        int index;
+        for(int i = 0; i < size(); i++) {
+            if (hashTable[i] != null) {
+                for (int j = 0; j < hashTable[i].size(); j++) {
+                    o = hashTable[i].get(j);
+                    index = o.hashCode() % newHashTable.length;
+                    if(newHashTable[index] == null) {
+                        ArrayList<Object> bucket = new ArrayList<>(1);
+                        bucket.add(o);
+                        newHashTable[index] = bucket;
+                    }
+                    else {
+                        newHashTable[index].add(o);
+                    }
+                }
+            }
+        }
         hashTable = newHashTable;
     }
 
@@ -141,7 +162,13 @@ public class MyHashSet implements Set<String> {
 
     @Override
     public void clear() {
+        size = 0;
         hashTable = new ArrayList[hashTable.length];
+    }
+
+    //added for testing purposes
+    public int length(){
+        return hashTable.length;
     }
 }
 
