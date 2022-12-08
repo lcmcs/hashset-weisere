@@ -50,15 +50,18 @@ public Iterator<String> iterator() {
         }
 
         @Override
-        public String next() {
+        public String next() throws NoSuchElementException {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
             while(hashTable[preIndex] == null){
                  preIndex++;
             }
+            while (hashTable[preIndex].iterator().hasNext()){
+                String s = (String) hashTable[preIndex].iterator().next();
+                return s;
+            }
             return null;
-            //return hashTable[preIndex++].iterator();
         }
 
     }
@@ -66,7 +69,6 @@ public Iterator<String> iterator() {
     @Override
     public int size() {
         return size;
-
     }
 
     @Override
