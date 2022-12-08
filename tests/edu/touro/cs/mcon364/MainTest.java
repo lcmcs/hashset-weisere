@@ -14,6 +14,16 @@ class MainTest {
     }
 
     @Test
+    void size(){
+        assertEquals(3, set.size());
+        set.add("d");
+        assertEquals(4, set.size());
+        set.remove("a");
+        set.remove("b");
+        assertEquals(2, set.size());
+    }
+
+    @Test
     void contains(){
         assertTrue(set.contains("b"));
         set.remove("b");
@@ -28,12 +38,13 @@ class MainTest {
         //added length method for testing purposes
         assertEquals(4,set1.length());
         set1.add("e");
+        //assertTrue(set1.contains("w"));
         set1.add("r");
         //once fourth element is added it will reach load factor and should double the size
         //of the array and still contain everything that was in it
         assertEquals(8,set1.length());
         assertTrue(set1.contains("q"));
-        //not sure why this is false (probably isnt properly accessing items in the same bucket
+        //not sure why this is false (probably isn't properly accessing items in the same bucket
         //assertTrue(set1.contains("w"));
         assertTrue(set1.contains("e"));
         assertTrue(set1.contains("r"));
@@ -55,8 +66,9 @@ class MainTest {
 
     @Test
     void toArray(){
-        Object[] example = new Object[set.size()];
+        Object[] example;
         example = set.toArray();
+        //assertEquals(set.size(), example.length);
         System.out.println(example[1]);
     }
 }
