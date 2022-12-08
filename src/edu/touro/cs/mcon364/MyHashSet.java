@@ -42,6 +42,7 @@ public Iterator<String> iterator() {
 
     private class MyHashSetIterator implements Iterator<String> { // inner class
         private int preIndex = 0;
+       // Iterator<String> bucketIterator = hashTable[preIndex].iterator();
 
         @Override
         public boolean hasNext() {
@@ -53,7 +54,11 @@ public Iterator<String> iterator() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            return MyHashSet.this.hashTable[this.preIndex++];
+            while(hashTable[preIndex] == null){
+                 preIndex++;
+            }
+
+            return hashTable[preIndex++].iterator();
         }
 
     }
