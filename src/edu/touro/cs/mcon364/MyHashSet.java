@@ -57,8 +57,8 @@ public Iterator<String> iterator() {
             while(hashTable[preIndex] == null){
                  preIndex++;
             }
-
-            return hashTable[preIndex++].iterator();
+            return null;
+            //return hashTable[preIndex++].iterator();
         }
 
     }
@@ -123,8 +123,7 @@ public Iterator<String> iterator() {
     }
 
     private void growHashTable(){
-        int doubleSize = hashTable.length * 2;
-        ArrayList[] newHashTable = new ArrayList[doubleSize];
+        ArrayList[] newHashTable = new ArrayList[hashTable.length * 2];
         Object o;
         int index;
         for(int i = 0; i < size(); i++) {
@@ -152,7 +151,12 @@ public Iterator<String> iterator() {
             return false;
         }
         int index = o.hashCode() % hashTable.length;
-        hashTable[index].remove(o);
+        if (hashTable[index].size() <= 1){
+            hashTable[index] = null;
+        }
+        else {
+            hashTable[index].remove(o);
+        }
         size--;
         return true;
     }
