@@ -68,7 +68,9 @@ class MainTest {
     void toArray(){
         Object[] example;
         example = set.toArray();
-        //assertEquals(set.size(), example.length);
         System.out.println(example[1]);
+//        for (Object o: example){
+//            System.out.println(o);
+//        }
     }
 }
