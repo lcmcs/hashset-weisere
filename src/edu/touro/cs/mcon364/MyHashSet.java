@@ -19,14 +19,13 @@ public class MyHashSet implements Set<String> {
         hashTable = new ArrayList[initialCapacity];
     }
 
-    public MyHashSet(Collection<String> c){
-        hashTable = new ArrayList[c.size()*2];
-        for (String s: c){
-            add(s);
-        }
-    }
+//    public MyHashSet(Collection<String> c){
+//        hashTable = new ArrayList[c.size()*2];
+//        for (String s: c){
+//            add(s);
+//        }
+//    }
 
-    //too access which list it is in u use o.hashCode() % hashTAble.length
 
     public MyHashSet(int initialCapacity){
         this.initialCapacity = initialCapacity;
@@ -42,7 +41,7 @@ public Iterator<String> iterator() {
 
     private class MyHashSetIterator implements Iterator<String> { // inner class
         private int preIndex = 0;
-       // Iterator<String> bucketIterator = hashTable[preIndex].iterator();
+       private Iterator bucketIterator;
 
         @Override
         public boolean hasNext() {
@@ -50,18 +49,16 @@ public Iterator<String> iterator() {
         }
 
         @Override
-        public String next() throws NoSuchElementException {
+        public String next()  {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            while(hashTable[preIndex] == null){
+            while(hashTable[preIndex] == null || !bucketIterator.hasNext()){
                  preIndex++;
+                 if(hashTable[preIndex] != null)
+                    bucketIterator =  hashTable[preIndex].iterator();
             }
-            while (hashTable[preIndex].iterator().hasNext()){
-                String s = (String) hashTable[preIndex].iterator().next();
-                return s;
-            }
-            return null;
+                return (String) bucketIterator.next();
         }
 
     }
@@ -89,14 +86,12 @@ public Iterator<String> iterator() {
     @Override
     public Object[] toArray() {
         int index = 0;
-        Object[] newHashSet = new String[hashTable.length];
-        for(int i = 0; i < size(); i++)
-            if(hashTable[i] != null)
-                for(int j = 0; j < hashTable[i].size(); j++) {
-                    newHashSet[index] = hashTable[i].get(j);
-                    index++;
-                }
-        return newHashSet;
+        Object[] copyArray = new String[size()];
+        for (String s: this) {
+            copyArray[index] = s;
+            index++;
+        }
+        return copyArray;
     }
 
     @Override
@@ -109,7 +104,7 @@ public Iterator<String> iterator() {
         if (contains(s)){
             return false;
         }
-        if((double)size()/(double)hashTable.length >= loadFactor){
+        if((double)size()/hashTable.length >= loadFactor){
             growHashTable();
         }
         int index = s.hashCode() % hashTable.length;
@@ -129,22 +124,20 @@ public Iterator<String> iterator() {
         ArrayList[] newHashTable = new ArrayList[hashTable.length * 2];
         Object o;
         int index;
-        for(int i = 0; i < size(); i++) {
-            if (hashTable[i] != null) {
-                for (int j = 0; j < hashTable[i].size(); j++) {
-                    o = hashTable[i].get(j);
-                    index = o.hashCode() % newHashTable.length;
+//        for(int i = 0; i < hashTable.length; i++) {
+//            if (hashTable[i] != null) {
+//                for (int j = 0; j < hashTable[i].size(); j++) {
+        for (String s: this) {
+            index = s.hashCode() % newHashTable.length;
                     if(newHashTable[index] == null) {
                         ArrayList<Object> bucket = new ArrayList<>(1);
-                        bucket.add(o);
+                        bucket.add(s);
                         newHashTable[index] = bucket;
                     }
                     else {
-                        newHashTable[index].add(o);
+                        newHashTable[index].add(s);
                     }
                 }
-            }
-        }
         hashTable = newHashTable;
     }
 

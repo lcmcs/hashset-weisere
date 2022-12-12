@@ -2,6 +2,8 @@ package edu.touro.cs.mcon364;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+
 import static org.junit.jupiter.api.Assertions.*;
 class MainTest {
         MyHashSet set;
@@ -11,6 +13,17 @@ class MainTest {
         set.add("a");
         set.add("b");
         set.add("c");
+    }
+
+    @Test
+    void iterator(){
+        HashSet set2 = new HashSet<>();
+        for (String s:set) {
+            assertTrue(set2.add(s));
+        }
+        //asserts that iterated through all element and that no elements were left out
+        assertTrue(set2.containsAll(set));
+        assertEquals(set.size(),set2.size());
     }
 
     @Test
@@ -38,14 +51,12 @@ class MainTest {
         //added length method for testing purposes
         assertEquals(4,set1.length());
         set1.add("e");
-        //assertTrue(set1.contains("w"));
         set1.add("r");
         //once fourth element is added it will reach load factor and should double the size
         //of the array and still contain everything that was in it
         assertEquals(8,set1.length());
         assertTrue(set1.contains("q"));
-        //not sure why this is false (probably isn't properly accessing items in the same bucket
-        //assertTrue(set1.contains("w"));
+        assertTrue(set1.contains("w"));
         assertTrue(set1.contains("e"));
         assertTrue(set1.contains("r"));
 
@@ -68,9 +79,9 @@ class MainTest {
     void toArray(){
         Object[] example;
         example = set.toArray();
-        System.out.println(example[1]);
-//        for (Object o: example){
-//            System.out.println(o);
-//        }
+        for (Object o: example){
+            assertTrue(set.contains(o));
+        }
+        assertEquals(example.length, set.size());
     }
 }
